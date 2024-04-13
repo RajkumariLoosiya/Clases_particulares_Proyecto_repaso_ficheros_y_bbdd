@@ -9,15 +9,16 @@ public class ConexionDB {
 	private Connection conx;
 
 	public ConexionDB() {
-
+		stablishConx(); 
 	}
 
 	public void stablishConx() {
 
 		try {
 
-			conx = DriverManager.getConnection("jdbc:h2:~/empresa; IFEXISTS=FALSE;DB_CLOSE_DELAY=-1");
-			createTables();
+			conx = DriverManager.getConnection("jdbc:h2:~/empresa;DB_CLOSE_DELAY=-1");
+//			createTables();
+			
 			System.out.println("Conexión establecida con éxito");
 			
 
@@ -36,7 +37,13 @@ public class ConexionDB {
 
 			String queryDepartamentos = "CREATE TABLE IF NOT EXISTS Departamentos (id INT PRIMARY KEY,nombre VARCHAR(255));";
 
-			String queryEmpleados = "CREATE TABLE Empleados (id INT PRIMARY KEY AUTO_INCREMENT,persona_id INT,cargo VARCHAR(255),salario DOUBLE,departamento_id INT,FOREIGN KEY (persona_id) REFERENCES Personas(id),FOREIGN KEY (departamento_id) REFERENCES Departamentos(id));";
+			String queryEmpleados = "CREATE TABLE Empleados ("
+					+ "id INT PRIMARY KEY AUTO_INCREMENT,"
+					+ "persona_id INT,"
+					+ "cargo VARCHAR(255),"
+					+ "salario DOUBLE,departamento_id INT,"
+					+ "FOREIGN KEY (persona_id) REFERENCES Personas(id),"
+					+ "FOREIGN KEY (departamento_id) REFERENCES Departamentos(id));";
 
 			st.executeUpdate(queryPersonas);
 

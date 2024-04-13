@@ -2,6 +2,9 @@ package ejercicio_files_y_basesdedatos.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import ejercicio_files_y_basesdedatos.model.Departamento;
 import ejercicio_files_y_basesdedatos.model.Empleado;
@@ -17,20 +20,19 @@ public class OperationsDB {
 
 	public void guardarEmpleado(Empleado empleEntra) {
 
-		String query = "INSERT INTO Empleados (Nombre,Edad,Cargo,Salario,IdDepartamento) VALUES (?,?,?,?,?)";
+		String query = "INSERT INTO Empleados (persona_id,Cargo,Salario,departamento_id) VALUES (?,?,?,?)";
 
 		try {
 
 			PreparedStatement pst = conx.prepareStatement(query);
 
-			pst.setString(1, empleEntra.getNombre());
-			pst.setInt(2, empleEntra.getEdad());
-			pst.setString(3, empleEntra.getCargo());
-			pst.setDouble(4, empleEntra.getSalario());
-			pst.setInt(5, empleEntra.getDepartamento().getId());
+			pst.setInt(1, empleEntra.getId());
+			pst.setString(2, empleEntra.getCargo());
+			pst.setDouble(3, empleEntra.getSalario());
+			pst.setInt(4, empleEntra.getDepartamento().getId());
 			pst.executeUpdate();
 
-			System.out.println("Empleado guardado con éxito");
+			System.out.println("Empleado guardado con éxito" + empleEntra.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,12 +48,12 @@ public class OperationsDB {
 
 			PreparedStatement pst = conx.prepareStatement(query);
 
-			pst.setInt(0, departamento.getId());
-			pst.setString(1, departamento.getNombre());
+			pst.setInt(1, departamento.getId()); 
+			pst.setString(2, departamento.getNombre());
 
 			pst.executeUpdate();
 
-			System.out.println("Departamento guardado con éxito");
+			System.out.println("Departamento guardado con éxito" + departamento.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,7 +74,7 @@ public class OperationsDB {
 
 			pst.executeUpdate();
 
-			System.out.println("Persona guardada con éxito");
+			System.out.println("Persona guardada con éxito" + persona.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
